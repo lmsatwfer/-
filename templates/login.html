@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #333;
+            background-image:
+                linear-gradient(to right, #555 1px, transparent 1px),
+                linear-gradient(to bottom, #555 1px, transparent 1px);
+            background-size: 70px 70px;
+            position: relative;
+            font-family: sans-serif;
+            direction: rtl;
+            animation: gradientAnimation 40s ease infinite;
+        }
+        .login-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            width: 300px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        h2 {
+            margin-bottom: 2rem;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.95);
+            transform: translateY(-2px);          
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+        }
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            margin-top: 1rem;
+            border: none;
+            border-radius: 5px;
+            background: #2980B9;
+            color: #fff;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #1A5276;
+            transform: translateY(-2px);
+        }
+        .error-message {
+            color: red;
+            margin-top: 1rem;
+            text-align: center;
+            background-color: #ffffff9c;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>تسجيل الدخول</h2>
+        <form id="loginForm">
+            <label for="username">اسم المستخدم</label>
+            <input type="text" id="username" name="username" placeholder="اسم المستخدم" required>
+            <label for="password">كلمة المرور</label>
+            <input type="password" id="password" name="password" placeholder="كلمة المرور" required>
+            <button type="submit" id="loginButton">دخول</button>
+        </form>
+        <div id="error-message" class="error-message"></div>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const enteredUsername = document.getElementById("username").value;
+            const enteredPassword = document.getElementById("password").value;
+
+            fetch('/verify_login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: enteredUsername,
+                    password: enteredPassword
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    window.location.href = "/index"; 
+                } else {
+                    document.getElementById("error-message").style.display = "block";
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById("error-message").style.display = "block";
+            });
+        });
+    </script>
+</body>
+</html>
+
+
