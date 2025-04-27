@@ -122,7 +122,7 @@ def update_state():
     return jsonify({"status": "success", "message": "State updated successfully"}), 200
 
 email_sender = "lmsatwfer@gmail.com"
-email_pasw = ""
+email_pasw = "hwfw bvay ciwl pyvn"
 
 if __name__ == '__main__':
     init_db()
