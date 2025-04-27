@@ -36,8 +36,12 @@ def init_db():
         conn.close()
 
 @app.route('/')
-def index():
+def login():
     return render_template('login.html')
+
+@app.route('/index.html')
+def index_page():
+    return render_template('index.html')
 
 @app.route('/data', methods=['POST'])
 def receive_data():
