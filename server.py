@@ -37,7 +37,7 @@ def init_db():
 
 @app.route('/')
 def index():
-    return render_template('login.html')
+    return render_template('index.html')
 
 @app.route('/data', methods=['POST'])
 def receive_data():
