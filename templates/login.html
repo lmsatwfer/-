@@ -70,12 +70,6 @@
             background-color: #1A5276;
             transform: translateY(-2px);
         }
-        p{
-            position: absolute;
-            bottom:0;
-            left: 10px;
-            color: white;
-        }
         .error-message {
             color: red;
             margin-top: 1rem;
@@ -83,18 +77,18 @@
             background-color: #ffffff9c;
         }
 
-@keyframes gradientAnimation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
     </style>
 </head>
 <body>
     <div class="login-container">
         <h2>تسجيل الدخول</h2>
         <form id="loginForm">
-            <label for="username" class="username">اسم المستخدم</label>
+            <label for="username">اسم المستخدم</label>
             <input type="text" id="username" name="username" placeholder="اسم المستخدم" required>
             <label for="password">كلمة المرور</label>
             <input type="password" id="password" name="password" placeholder="كلمة المرور" required>
@@ -102,23 +96,39 @@
         </form>
         <div id="error-message" class="error-message"></div>
     </div>
- <p>تواصل معنا:<span>lmsatwfer@gmail.com</span></p>
- <script> 
-    const correctUsername = 'admin';
-    const correctPassword = "1234";
-    document.getElementById('loginForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const enteredUsername = document.getElementById('username').value;
-        const enteredPassword = document.getElementById('password').value;
-        const errorMessageElement = document.getElementById('error-message');
-        errorMessageElement.textContent = "";
-        if (enteredUsername === correctUsername && enteredPassword === correctPassword) {
-            window.location.href = '/index.html';
-        } else
-         {
-            errorMessageElement.textContent = 'اسم المستخدم أو كلمة المرور غير صحيحة.';
-        }
-    });
-</script>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const enteredUsername = document.getElementById("username").value;
+            const enteredPassword = document.getElementById("password").value;
+
+            fetch('/verify_login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: enteredUsername,
+                    password: enteredPassword
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    window.location.href = '/index.html';
+                } else {
+                    document.getElementById("error-message").style.display = "block";
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById("error-message").style.display = "block";
+            });
+        });
+    </script>
 </body>
 </html>
+
+
