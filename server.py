@@ -87,7 +87,7 @@ def send_email():
         daily_water = row[7] 
         email = row[4]  
         
-        if daily_energy > 100:  #تعديل
+        if daily_energy > 10.6:  
             subject = "تحذير استهلاك كهرباء مرتفع"
             body = f"تحذير! استهلاك الطاقة اليومي هو {daily_energy} كيلووات وهو مرتفع."
             message = f"Subject: {subject}\n\n{body}"
@@ -97,7 +97,7 @@ def send_email():
                 server.login(email_sender, email_pasw)
                 server.sendmail(email_sender, email, message)
 
-        if daily_water > 13725.83:  
+        if daily_water > 457.527:  
             subject = "تحذير استهلاك ماء مرتفع"
             body = f"تحذير! استهلاك الماء اليومي هو {daily_water} لتر وهو مرتفع."
             message = f"Subject: {subject}\n\n{body}"
